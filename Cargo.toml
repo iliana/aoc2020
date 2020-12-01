@@ -6,4 +6,4 @@ edition = "2018"
 publish = false
 
 [dependencies]
-itertools = "0.9"
+libc-print = "0.1"

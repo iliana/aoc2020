@@ -1,39 +1,40 @@
-use std::str::FromStr;
+#![no_std]
 
-fn part1<I: IntoIterator<Item = u64> + Clone>(iter: I) -> u64 {
+use aoc2020::*;
+
+fn part1<I: IntoIterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
     for a in iter.clone() {
         for b in iter.clone() {
             if a + b == 2020 {
-                return a * b;
+                return Some(a * b);
             }
         }
     }
-    panic!("no solution found");
+    None
 }
 
-fn part2<I: IntoIterator<Item = u64> + Clone>(iter: I) -> u64 {
+fn part2<I: IntoIterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
     for a in iter.clone() {
         for b in iter.clone() {
             for c in iter.clone() {
                 if a + b + c == 2020 {
-                    return a * b * c;
+                    return Some(a * b * c);
                 }
             }
         }
     }
-    panic!("no solution found");
+    None
 }
 
 #[test]
 fn test() {
-    assert_eq!(part1(vec![1721, 979, 366, 299, 675, 1456]), 1721 * 299);
-    assert_eq!(part2(vec![1721, 979, 366, 299, 675, 1456]), 979 * 366 * 675);
+    let iter = test_input!(u64);
+    assert_eq!(part1(iter.clone()), Some(1721 * 299));
+    assert_eq!(part2(iter), Some(979 * 366 * 675));
 }
 
 fn main() {
-    let iter = include_str!("../../input/day1.txt")
-        .lines()
-        .map(|l| u64::from_str(l).unwrap());
-    println!("part 1: {}", part1(iter.clone()));
-    println!("part 2: {}", part2(iter));
+    let iter = input!(u64);
+    libc_println!("part 1: {}", part1(iter.clone()).unwrap());
+    libc_println!("part 2: {}", part2(iter).unwrap());
 }
