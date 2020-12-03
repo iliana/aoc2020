@@ -1,6 +1,7 @@
 #![no_std]
 
 use aoc2020::*;
+use itertools::Itertools;
 
 #[derive(Debug)]
 struct Input {
@@ -12,14 +13,13 @@ struct Input {
 
 impl Input {
     fn from_str(s: &'static str) -> Option<Input> {
-        let minus = s.find('-')?;
-        let space = s.find(' ')?;
-        let colon = s.find(": ")?;
+        let (s1, s) = s.splitn(2, '-').collect_tuple()?;
+        let (s2, s) = s.splitn(2, ' ').collect_tuple()?;
+        let (s3, password) = s.splitn(2, ": ").collect_tuple()?;
 
-        let a = s[0..minus].parse().ok()?;
-        let b = s[(minus + 1)..space].parse().ok()?;
-        let letter = s[(space + 1)..colon].chars().next()?;
-        let password = &s[(colon + 2)..];
+        let a = s1.parse().ok()?;
+        let b = s2.parse().ok()?;
+        let letter = s3.parse().ok()?;
 
         Some(Input {
             a,
