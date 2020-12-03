@@ -12,18 +12,6 @@ macro_rules! input {
         ))
     };
 
-    /*
-    () => {
-        cfg_if::cfg_if! {
-            if #[cfg(test)] {
-                input!(@__prefix "test_")
-            } else {
-                input!(@__prefix "")
-            }
-        }
-    };
-    */
-
     () => {{
         #[cfg(test)] { input!(@__prefix "test_") }
         #[cfg(not(test))] { input!(@__prefix "") }
