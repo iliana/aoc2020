@@ -6,6 +6,7 @@ edition = "2018"
 publish = false
 
 [dependencies]
+cfg-if = "1"
 heapless = "0.5"
 itertools = { version = "0.9", default-features = false }
 libc-print = "0.1"

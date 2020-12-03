@@ -49,7 +49,7 @@ fn part2<I: Iterator<Item = Input>>(iter: I) -> usize {
 
 #[test]
 fn test() {
-    let lines = test_input!(Input);
+    let lines = input!(Input);
     assert_eq!(part1(lines.clone()), 2);
     assert_eq!(part2(lines), 1);
 }

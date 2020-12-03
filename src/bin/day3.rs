@@ -33,13 +33,13 @@ fn part2(map: &Map) -> usize {
 
 #[test]
 fn test() {
-    let map = Map::from_str(include_str!(test_input_name!()));
+    let map = Map::from_str(input!());
     assert_eq!(part1(&map), 7);
     assert_eq!(part2(&map), 336);
 }
 
 fn main() {
-    let map = Map::from_str(include_str!(input_name!()));
+    let map = Map::from_str(input!());
     libc_println!("part 1: {}", part1(&map));
     libc_println!("part 2: {}", part2(&map));
 }

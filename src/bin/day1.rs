@@ -28,7 +28,7 @@ fn part2<I: Iterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
 
 #[test]
 fn test() {
-    let iter = test_input!(u64);
+    let iter = input!(u64);
     assert_eq!(part1(iter.clone()), Some(1721 * 299));
     assert_eq!(part2(iter), Some(979 * 366 * 675));
 }
