@@ -10,19 +10,12 @@ impl Map {
         Map(s.lines().map(str::as_bytes).collect())
     }
 
-    fn height(&self) -> usize {
-        self.0.len()
-    }
-
-    fn is_tree(&self, right: usize, down: usize) -> bool {
-        self.0[down][right % self.0[0].len()] == b'#'
-    }
-
     fn trees_for_path(&self, step_right: usize, step_down: usize) -> usize {
-        (0..self.height())
+        self.0
+            .iter()
             .step_by(step_down)
             .enumerate()
-            .filter(|(i, down)| self.is_tree(i * step_right, *down))
+            .filter(|(i, row)| row[(i * step_right) % row.len()] == b'#')
             .count()
     }
 }
