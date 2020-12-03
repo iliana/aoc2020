@@ -1,40 +1,36 @@
 #![no_std]
 
 use aoc2020::*;
+use heapless::{consts::*, ArrayLength, Vec};
 
-fn part1<I: Iterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
-    for a in iter.clone() {
-        for b in iter.clone() {
-            if a + b == 2020 {
-                return Some(a * b);
-            }
-        }
-    }
-    None
-}
-
-fn part2<I: Iterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
-    for a in iter.clone() {
-        for b in iter.clone() {
-            for c in iter.clone() {
-                if a + b + c == 2020 {
-                    return Some(a * b * c);
+fn solve<N: ArrayLength<u64>>(data: &[u64]) -> Option<u64> {
+    fn inner<N: ArrayLength<u64>>(data: &[u64], acc: &mut Vec<u64, N>) -> Option<u64> {
+        for (i, n) in data.iter().enumerate() {
+            acc.push(*n).unwrap();
+            if acc.len() == acc.capacity() {
+                if acc.iter().sum::<u64>() == 2020 {
+                    return Some(acc.iter().product());
                 }
+            } else if let Some(v) = inner(&data[(i + 1)..], acc) {
+                return Some(v);
             }
+            acc.pop();
         }
+        None
     }
-    None
+
+    inner::<N>(data, &mut Vec::new())
 }
 
 #[test]
 fn test() {
-    let iter = input!(u64);
-    assert_eq!(part1(iter.clone()), Some(1721 * 299));
-    assert_eq!(part2(iter), Some(979 * 366 * 675));
+    let data: Vec<u64, U200> = input!(u64).collect();
+    assert_eq!(solve::<U2>(&data), Some(1721 * 299));
+    assert_eq!(solve::<U3>(&data), Some(979 * 366 * 675));
 }
 
 fn main() {
-    let iter = input!(u64);
-    libc_println!("part 1: {}", part1(iter.clone()).unwrap());
-    libc_println!("part 2: {}", part2(iter).unwrap());
+    let data: Vec<u64, U200> = input!(u64).collect();
+    libc_println!("part 1: {}", solve::<U2>(&data).unwrap());
+    libc_println!("part 2: {}", solve::<U3>(&data).unwrap());
 }
