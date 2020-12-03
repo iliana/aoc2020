@@ -2,7 +2,7 @@
 
 use aoc2020::*;
 
-fn part1<I: IntoIterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
+fn part1<I: Iterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
     for a in iter.clone() {
         for b in iter.clone() {
             if a + b == 2020 {
@@ -13,7 +13,7 @@ fn part1<I: IntoIterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
     None
 }
 
-fn part2<I: IntoIterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
+fn part2<I: Iterator<Item = u64> + Clone>(iter: I) -> Option<u64> {
     for a in iter.clone() {
         for b in iter.clone() {
             for c in iter.clone() {
