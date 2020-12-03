@@ -14,8 +14,8 @@ impl Map {
         self.0
             .iter()
             .step_by(step_down)
-            .enumerate()
-            .filter(|(i, row)| row[(i * step_right) % row.len()] == b'#')
+            .zip((0..).step_by(step_right))
+            .filter(|(row, col)| row[*col % row.len()] == b'#')
             .count()
     }
 }
