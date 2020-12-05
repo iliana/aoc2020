@@ -1,39 +1,20 @@
 #![no_std]
 
 use aoc2020::*;
-use core::ops::Range;
+use core::str;
 use heapless::{consts::U1024, Vec};
 use itertools::Itertools;
 
 fn seat_id(s: &str) -> u16 {
-    let mut row = 0..128;
-    let mut col = 0..8;
-
-    for c in s[..7].chars() {
-        match c {
-            'F' => row = lower(row),
-            'B' => row = upper(row),
-            _ => {}
-        }
+    let mut buf = [0; 10];
+    for (i, c) in s.bytes().enumerate() {
+        buf[i] = match c {
+            b'F' | b'L' => b'0',
+            b'B' | b'R' => b'1',
+            _ => unreachable!(),
+        };
     }
-
-    for c in s[7..].chars() {
-        match c {
-            'L' => col = lower(col),
-            'R' => col = upper(col),
-            _ => {}
-        }
-    }
-
-    row.start * 8 + col.start
-}
-
-fn lower(r: Range<u16>) -> Range<u16> {
-    (r.start)..((r.end + r.start) / 2)
-}
-
-fn upper(r: Range<u16>) -> Range<u16> {
-    ((r.end + r.start) / 2)..(r.end)
+    u16::from_str_radix(str::from_utf8(&buf).unwrap(), 2).unwrap()
 }
 
 #[test]
