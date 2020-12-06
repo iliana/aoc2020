@@ -21,4 +21,8 @@ macro_rules! input {
         use core::str::FromStr;
         input!().lines().map(|l| <$ty>::from_str(l).unwrap())
     }};
+
+    ($ty:ty, $split:expr) => {
+        input!().split($split).map(|l| <$ty>::from_str(l).unwrap())
+    };
 }
