@@ -9,3 +9,7 @@ publish = false
 heapless = "0.5"
 itertools = { version = "0.9", default-features = false }
 libc-print = "0.1"
+
+[dev-dependencies]
+assert_cmd = "1"
+paste = "1"
