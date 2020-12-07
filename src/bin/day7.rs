@@ -10,30 +10,31 @@ struct Rules(FnvIndexMap<&'static str, Vec<(u8, &'static str), U8>, U1024>);
 
 impl Rules {
     fn from_str(s: &'static str) -> Rules {
-        let mut map = FnvIndexMap::new();
-        for line in s.lines() {
-            let (color, line) = line
-                .trim()
-                .splitn(2, " bags contain ")
-                .collect_tuple()
-                .unwrap();
-            map.insert(
-                color,
-                if line == "no other bags." {
-                    Vec::new()
-                } else {
-                    let mut v = Vec::new();
-                    for s in line.split(", ") {
-                        let (count, s) = s.splitn(2, ' ').collect_tuple().unwrap();
-                        let (color, _) = s.splitn(2, " bag").collect_tuple().unwrap();
-                        v.push((count.parse().unwrap(), color)).unwrap();
-                    }
-                    v
-                },
-            )
-            .unwrap();
-        }
-        Rules(map)
+        Rules(
+            s.lines()
+                .map(|line| {
+                    let (color, line) = line
+                        .trim()
+                        .splitn(2, " bags contain ")
+                        .collect_tuple()
+                        .unwrap();
+                    (
+                        color,
+                        if line == "no other bags." {
+                            Vec::new()
+                        } else {
+                            line.split(", ")
+                                .map(|s| {
+                                    let (count, s) = s.splitn(2, ' ').collect_tuple().unwrap();
+                                    let (color, _) = s.splitn(2, " bag").collect_tuple().unwrap();
+                                    (count.parse().unwrap(), color)
+                                })
+                                .collect()
+                        },
+                    )
+                })
+                .collect(),
+        )
     }
 
     fn paths_to(&self, to: &'static str) -> usize {
